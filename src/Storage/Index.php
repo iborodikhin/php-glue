@@ -59,9 +59,8 @@ class Index extends AbstractFile
             $string = fgets($fh);
             if (false !== strpos($string, $key)) {
                 $found = true;
-                break;
             }
-        } while (!feof($fh) && false === strpos($string, $key));
+        } while (!feof($fh) && !$found);
         flock($fh, LOCK_UN);
 
         if ($found) {
