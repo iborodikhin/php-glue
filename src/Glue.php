@@ -105,7 +105,7 @@ class Glue
             if (strlen($key) < $this->levels) {
                 $key = str_pad($key, $this->levels, '0', STR_PAD_LEFT);
             }
-            $result = $result && $this->getStorage($key)->compact();
+            $result = $this->getStorage($key)->compact() && $result;
         }
 
         return $result;
