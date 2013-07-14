@@ -99,7 +99,7 @@ class Glue
         $result = true;
 
         $min = 0;
-        $max = 16 * $this->levels;
+        $max = pow(16, $this->levels);
         for ($i = $min; $i < $max; $i ++) {
             $key = dechex($i);
             if (strlen($key) < $this->levels) {
