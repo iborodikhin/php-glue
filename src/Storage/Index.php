@@ -66,7 +66,10 @@ class Index extends AbstractFile
 
         if ($found) {
             $result = explode("\t", trim($string));
-            return $result;
+            $hash   = array_shift($result);
+            if (trim($hash) == trim($key)) {
+                return $result;
+            }
         }
 
         return false;
@@ -75,5 +78,8 @@ class Index extends AbstractFile
     public function delete($key)
     {
         $fh = $this->open();
+        /**
+         * Implement
+         */
     }
 }

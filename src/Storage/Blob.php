@@ -22,7 +22,7 @@ class Blob extends AbstractFile
      * @param $data
      * @return array
      */
-    protected function save($data)
+    public function save($data)
     {
         $fh = $this->open();
         flock($fh, LOCK_EX);
@@ -30,6 +30,10 @@ class Blob extends AbstractFile
         fseek($fh, $offset);
         $result = fwrite($fh, $data);
         flock($fh, LOCK_UN);
+
+        if ($result === false) {
+            return false;
+        }
 
         return array($offset, $result);
     }
@@ -41,7 +45,7 @@ class Blob extends AbstractFile
      * @param $length
      * @return string
      */
-    protected function readData($offset, $length)
+    public function read($offset, $length)
     {
         $fh = $this->open();
         flock($fh, LOCK_SH);
