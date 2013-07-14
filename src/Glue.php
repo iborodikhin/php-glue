@@ -98,9 +98,15 @@ class Glue
     {
         $result = true;
 
-        /**
-         * TODO: Implement
-         */
+        $min = 0;
+        $max = 16 * $this->levels;
+        for ($i = $min; $i < $max; $i ++) {
+            $key = dechex($i);
+            if (strlen($key) < $this->levels) {
+                $key = str_pad($key, $this->levels, '0', STR_PAD_LEFT);
+            }
+            $result = $result && $this->getStorage($key)->compact();
+        }
 
         return $result;
     }

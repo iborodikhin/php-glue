@@ -85,6 +85,22 @@ class Storage
     }
 
     /**
+     * Compacts storage
+     *
+     * @return bool
+     */
+    public function compact()
+    {
+        $result = true;
+
+        /**
+         * TODO: Implement
+         */
+
+        return $result;
+    }
+
+    /**
      * Returns hash of name
      *
      * @param $name
