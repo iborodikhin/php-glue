@@ -14,7 +14,7 @@ class Glue
      *
      * @var string
      */
-    protected $path   = __DIR__;
+    protected $path = __DIR__;
 
     /**
      * How many BLOBs to create — 16^$levels
@@ -22,6 +22,13 @@ class Glue
      * @var int
      */
     protected $levels = 2;
+
+    /**
+     * Storage objects local cache
+     *
+     * @var array
+     */
+    protected $storages = array();
 
     /**
      * Public constructor.
@@ -46,7 +53,7 @@ class Glue
     public function save($name, $value)
     {
         $key     = $this->key2storage($name);
-        $storage = new \Glue\Storage($key, $this->path);
+        $storage = $this->getStorage($key);
         $result  = $storage->save($name, $value);
 
         return $result;
@@ -61,7 +68,7 @@ class Glue
     public function read($name)
     {
         $key     = $this->key2storage($name);
-        $storage = new \Glue\Storage($key, $this->path);
+        $storage = $this->getStorage($key);
         $result  = $storage->read($name);
 
         return $result;
@@ -76,7 +83,7 @@ class Glue
     public function delete($name)
     {
         $key     = $this->key2storage($name);
-        $storage = new \Glue\Storage($key, $this->path);
+        $storage = $this->getStorage($key);
         $result  = $storage->delete($name);
 
         return $result;
@@ -92,7 +99,7 @@ class Glue
         $result = true;
 
         /**
-         * Impl
+         * TODO: Implement
          */
 
         return $result;
@@ -108,5 +115,20 @@ class Glue
     {
         $result = sha1($key);
         return substr($result, 0, $this->levels);
+    }
+
+    /**
+     * Returns Storage object with cache
+     *
+     * @param $key
+     * @return mixed
+     */
+    protected function getStorage($key)
+    {
+        if (!isset($this->storages[$key]) || !is_a($this->storages[$key], \Glue\Storage)) {
+            $this->storages[$key] = new \Glue\Storage($key, $this->path);
+        }
+
+        return $this->storages[$key];
     }
 }
