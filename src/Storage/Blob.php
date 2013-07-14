@@ -56,4 +56,25 @@ class Blob extends AbstractFile
         return $result;
     }
 
+    /**
+     * Deletes data from BLOB
+     *
+     * @param $offset
+     * @param $length
+     * @return bool
+     */
+    public function delete($offset, $length)
+    {
+        $fh = $this->open();
+        flock($fh, LOCK_EX);
+        fseek($fh, $offset);
+        $result = fwrite($fh, str_repeat(chr(0), $length));
+        flock($fh, LOCK_UN);
+
+        if ($result === false) {
+            return false;
+        }
+
+        return true;
+    }
 }

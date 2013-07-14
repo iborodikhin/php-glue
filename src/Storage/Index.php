@@ -50,10 +50,33 @@ class Index extends AbstractFile
      */
     public function read($key)
     {
+        return $this->findOrDelete($key, false);
+    }
+
+    /**
+     * Deletes meta-data from index
+     *
+     * @param $key
+     * @return bool
+     */
+    public function delete($key)
+    {
+        return $this->findOrDelete($key, true);
+    }
+
+    /**
+     * Finds or deletes meta-data in index
+     *
+     * @param $key
+     * @param bool $delete
+     * @return array|bool
+     */
+    protected function findOrDelete($key, $delete = false)
+    {
         $found = false;
 
         $fh = $this->open();
-        flock($fh, LOCK_SH);
+        flock($fh, ($delete ? LOCK_EX : LOCK_SH));
         fseek($fh, 0);
         do {
             $string = fgets($fh);
@@ -61,24 +84,24 @@ class Index extends AbstractFile
                 $found = true;
             }
         } while (!feof($fh) && !$found);
-        flock($fh, LOCK_UN);
 
         if ($found) {
             $result = explode("\t", trim($string));
             $hash   = array_shift($result);
             if (trim($hash) == trim($key)) {
-                return $result;
+                if (!$delete) {
+                    flock($fh, LOCK_UN);
+                    return $result;
+                } else {
+                    fseek($fh, 0 - strlen($string), SEEK_CUR);
+                    fputs($fh, str_repeat(chr(0), strlen(trim($string))));
+                    flock($fh, LOCK_UN);
+                    return $result;
+                }
             }
         }
 
+        flock($fh, LOCK_UN);
         return false;
-    }
-
-    public function delete($key)
-    {
-        $fh = $this->open();
-        /**
-         * TODO: Implement
-         */
     }
 }

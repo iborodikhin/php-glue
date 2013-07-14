@@ -58,7 +58,7 @@ abstract class AbstractFile
     protected function open()
     {
         if (!is_resource($this->handle)) {
-            $this->handle = fopen($this->path, 'a+');
+            $this->handle = fopen($this->path, 'r+');
         }
 
         return $this->handle;

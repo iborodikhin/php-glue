@@ -77,11 +77,16 @@ class Storage
      * Deletes item from storage
      *
      * @param $name
+     * @return bool
      */
     public function delete($name)
     {
         $key = $this->getKey($name);
-        $this->index->delete($key);
+        $result = $this->index->delete($key);
+        if (is_array($result) && count($result) == 2) {
+            return $this->blob->delete($result[0], $result[1]);
+        }
+        return false;
     }
 
     /**
