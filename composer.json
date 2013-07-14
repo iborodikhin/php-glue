@@ -1,0 +1,26 @@
+{
+    "name": "iborodikhin/php-glue",
+    "version": "0.1",
+    "type": "library",
+    "description": "Files storage scheme which «glues» couple of small files into several BLOBs.",
+    "keywords": [
+        "files",
+        "storage",
+        "blob",
+    ],
+    "homepage": "http://github.com/iborodikhin/php-glue",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Igor Borodikhin",
+            "email": "iborodikhin@gmail.com",
+            "homepage": "http://iborodikhin.net"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "psr-0": { "Glue\\": "src/" }
+    }
+}
