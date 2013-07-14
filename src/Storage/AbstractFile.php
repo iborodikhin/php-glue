@@ -7,7 +7,7 @@
 namespace Glue\Storage;
 
 
-abstract class Base
+abstract class AbstractFile
 {
     /**
      * File path
