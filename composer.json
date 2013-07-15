@@ -6,7 +6,7 @@
     "keywords": [
         "files",
         "storage",
-        "blob",
+        "blob"
     ],
     "homepage": "http://github.com/iborodikhin/php-glue",
     "license": "MIT",
