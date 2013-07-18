@@ -24,6 +24,20 @@ class Storage
     protected $blob  = null;
 
     /**
+     * Storage key
+     *
+     * @var null|string
+     */
+    protected $key   = null;
+
+    /**
+     * Storage path
+     *
+     * @var null|string
+     */
+    protected $path  = null;
+
+    /**
      * Public constructor
      *
      * @param $key
@@ -31,8 +45,11 @@ class Storage
      */
     public function __construct($key, $path)
     {
-        $this->index = new Storage\Index($path . DIRECTORY_SEPARATOR . $key);
-        $this->blob  = new Storage\Blob($path . DIRECTORY_SEPARATOR . $key);
+        $this->key   = $key;
+        $this->path  = $path;
+
+        $this->index = new Storage\Index($this->getKeyPath());
+        $this->blob  = new Storage\Blob($this->getKeyPath());
     }
 
     /**
@@ -98,9 +115,7 @@ class Storage
     {
         $result = true;
 
-        /**
-         * TODO: Implement
-         */
+        // TODO: Implement
 
         return $result;
     }
@@ -114,5 +129,15 @@ class Storage
     protected function getKey($name)
     {
         return sha1($name);
+    }
+
+    /**
+     * Returns path for storage path and key
+     *
+     * @return string
+     */
+    protected function getKeyPath()
+    {
+        return $this->path . DIRECTORY_SEPARATOR . $this->key;
     }
 }
