@@ -64,6 +64,7 @@ class Storage
     {
         $key   = $this->getKey($name);
         $index = $this->blob->save($value);
+        $meta['mime-type'] = $this->getMimeType($value);
 
         if ($index === false) {
             return false;
@@ -88,18 +89,8 @@ class Storage
 
         $offset = $index[0];
         $length = $index[1];
-        $meta   = (!empty($index[2]) ? unserialize($index[2]) : array());
-
-        // Get mime-type of object
-        $data = $this->blob->read($offset, $length);
-        $info = finfo_open(FILEINFO_MIME_TYPE);
-        $mime = finfo_buffer($info, $data);
-        finfo_close($info);
-
-        if (!is_array($meta)) {
-            $meta = array();
-        }
-        $meta = array_merge($meta, array('mime-type' => $mime));
+        $meta   = unserialize($index[2]);
+        $data   = $this->blob->read($offset, $length);
 
         return array(
             'data' => $data,
@@ -156,5 +147,19 @@ class Storage
     protected function getKeyPath()
     {
         return $this->path . DIRECTORY_SEPARATOR . $this->key;
+    }
+
+    /**
+     * Returns mime-type for data
+     *
+     * @param $data
+     * @return string
+     */
+    protected function getMimeType($data)
+    {
+        $info = finfo_open(FILEINFO_MIME_TYPE);
+        $mime = finfo_buffer($info, $data);
+        finfo_close($info);
+        return $mime;
     }
 }
