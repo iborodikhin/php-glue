@@ -57,9 +57,10 @@ class Storage
      *
      * @param $name
      * @param $value
+     * @param array $meta
      * @return bool|\FALSE|int
      */
-    public function save($name, $value)
+    public function save($name, $value, array $meta = array())
     {
         $key   = $this->getKey($name);
         $index = $this->blob->save($value);
@@ -68,14 +69,14 @@ class Storage
             return false;
         }
 
-        return $this->index->save($key, $index[0], $index[1]);
+        return $this->index->save($key, $index[0], $index[1], serialize($meta));
     }
 
     /**
      * Reads item from storage
      *
      * @param $name
-     * @return bool|string
+     * @return array|bool
      */
     public function read($name)
     {
@@ -87,7 +88,23 @@ class Storage
 
         $offset = $index[0];
         $length = $index[1];
-        return $this->blob->read($offset, $length);
+        $meta   = (!empty($index[2]) ? unserialize($index[2]) : array());
+
+        // Get mime-type of object
+        $data = $this->blob->read($offset, $length);
+        $info = finfo_open(FILEINFO_MIME_TYPE);
+        $mime = finfo_buffer($info, $data);
+        finfo_close($info);
+
+        if (!is_array($meta)) {
+            $meta = array();
+        }
+        $meta = array_merge($meta, array('mime-type' => $mime));
+
+        return array(
+            'data' => $data,
+            'meta' => $meta,
+        );
     }
 
     /**

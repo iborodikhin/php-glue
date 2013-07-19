@@ -22,15 +22,17 @@ class Index extends AbstractFile
      * @param $key
      * @param $offset
      * @param $length
+     * @param string $meta
      * @return \FALSE|int
      */
-    public function save($key, $offset, $length)
+    public function save($key, $offset, $length, $meta = "")
     {
         $data = sprintf(
-            "%s\t%s\t%s" . PHP_EOL,
+            "%s\t%s\t%s\t%s" . PHP_EOL,
             $key,
             $offset,
-            $length
+            $length,
+            $meta
         );
 
         $fh = $this->open();
