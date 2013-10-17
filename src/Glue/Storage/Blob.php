@@ -1,11 +1,5 @@
 <?php
-/**
- * User: majesty
- * Date: 14.07.13
- */
-
 namespace Glue\Storage;
-
 
 class Blob extends AbstractFile
 {
@@ -19,7 +13,7 @@ class Blob extends AbstractFile
     /**
      * Writes data to BLOB
      *
-     * @param $data
+     * @param  string $data
      * @return array
      */
     public function save($data)
@@ -41,8 +35,8 @@ class Blob extends AbstractFile
     /**
      * Reads data from BLOB.
      *
-     * @param $offset
-     * @param $length
+     * @param  integer $offset
+     * @param  integer $length
      * @return string
      */
     public function read($offset, $length)
@@ -59,9 +53,9 @@ class Blob extends AbstractFile
     /**
      * Deletes data from BLOB
      *
-     * @param $offset
-     * @param $length
-     * @return bool
+     * @param  integer $offset
+     * @param  integer $length
+     * @return boolean
      */
     public function delete($offset, $length)
     {

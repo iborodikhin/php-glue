@@ -1,11 +1,7 @@
 <?php
-/**
- * User: majesty
- * Date: 14.07.13
- */
-
 namespace Glue;
 
+use Glue\Storage;
 
 class Glue
 {
@@ -19,14 +15,14 @@ class Glue
     /**
      * How many BLOBs to create — 16^$levels
      *
-     * @var int
+     * @var integer
      */
     protected $levels = 2;
 
     /**
      * Storage objects local cache
      *
-     * @var array
+     * @var \Glue\Storage[]
      */
     protected $storages = array();
 
@@ -34,8 +30,8 @@ class Glue
      * Public constructor.
      * Creates Glue instance.
      *
-     * @param string $path
-     * @param int $levels
+     * @param string  $path
+     * @param integer $levels
      */
     public function __construct($path = __DIR__, $levels = 2)
     {
@@ -46,9 +42,9 @@ class Glue
     /**
      * Save data to storage.
      *
-     * @param $name
-     * @param $value
-     * @return bool
+     * @param  string  $name
+     * @param  string  $value
+     * @return boolean
      */
     public function save($name, $value)
     {
@@ -62,7 +58,7 @@ class Glue
     /**
      * Read data from storage.
      *
-     * @param $name
+     * @param  string $name
      * @return string
      */
     public function read($name)
@@ -77,8 +73,8 @@ class Glue
     /**
      * Remove data from storage.
      *
-     * @param $name
-     * @return bool
+     * @param  string  $name
+     * @return boolean
      */
     public function delete($name)
     {
@@ -92,7 +88,7 @@ class Glue
     /**
      * Compact storage.
      *
-     * @return bool
+     * @return boolean
      */
     public function compact()
     {
@@ -114,25 +110,26 @@ class Glue
     /**
      * Maps key to storage.
      *
-     * @param $key
+     * @param  string $key
      * @return string
      */
     protected function key2storage($key)
     {
         $result = sha1($key);
+
         return substr($result, 0, $this->levels);
     }
 
     /**
      * Returns Storage object with cache
      *
-     * @param $key
-     * @return mixed
+     * @param  string        $key
+     * @return \Glue\Storage
      */
     protected function getStorage($key)
     {
-        if (!isset($this->storages[$key]) || !is_a($this->storages[$key], \Glue\Storage)) {
-            $this->storages[$key] = new \Glue\Storage($key, $this->path);
+        if (!isset($this->storages[$key]) || !is_a($this->storages[$key], Storage)) {
+            $this->storages[$key] = new Storage($key, $this->path);
         }
 
         return $this->storages[$key];

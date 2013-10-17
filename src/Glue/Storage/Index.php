@@ -1,11 +1,5 @@
 <?php
-/**
- * User: majesty
- * Date: 14.07.13
- */
-
 namespace Glue\Storage;
-
 
 class Index extends AbstractFile
 {
@@ -19,11 +13,11 @@ class Index extends AbstractFile
     /**
      * Save meta-data to index
      *
-     * @param $key
-     * @param $offset
-     * @param $length
-     * @param string $meta
-     * @return \FALSE|int
+     * @param  string          $key
+     * @param  integer         $offset
+     * @param  integer         $length
+     * @param  string          $meta
+     * @return boolean|integer
      */
     public function save($key, $offset, $length, $meta = "")
     {
@@ -47,8 +41,8 @@ class Index extends AbstractFile
     /**
      * Reads meta-data from index
      *
-     * @param $key
-     * @return array|bool
+     * @param  string        $key
+     * @return array|boolean
      */
     public function read($key)
     {
@@ -58,8 +52,8 @@ class Index extends AbstractFile
     /**
      * Deletes meta-data from index
      *
-     * @param $key
-     * @return bool
+     * @param  string  $key
+     * @return boolean
      */
     public function delete($key)
     {
@@ -69,9 +63,9 @@ class Index extends AbstractFile
     /**
      * Finds or deletes meta-data in index
      *
-     * @param $key
-     * @param bool $delete
-     * @return array|bool
+     * @param  string        $key
+     * @param  boolean       $delete
+     * @return array|boolean
      */
     protected function findOrDelete($key, $delete = false)
     {
@@ -93,17 +87,20 @@ class Index extends AbstractFile
             if (trim($hash) == trim($key)) {
                 if (!$delete) {
                     flock($fh, LOCK_UN);
+
                     return $result;
                 } else {
                     fseek($fh, 0 - strlen($string), SEEK_CUR);
                     fputs($fh, str_repeat(chr(0), strlen(trim($string))));
                     flock($fh, LOCK_UN);
+
                     return $result;
                 }
             }
         }
 
         flock($fh, LOCK_UN);
+
         return false;
     }
 }

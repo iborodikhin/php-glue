@@ -1,25 +1,22 @@
 <?php
-/**
- * User: majesty
- * Date: 14.07.13
- */
-
 namespace Glue;
 
+use Glue\Storage\Index;
+use Glue\Storage\Blob;
 
 class Storage
 {
     /**
      * Index instance
      *
-     * @var Storage\Index|null
+     * @var \Glue\Storage\Index
      */
     protected $index = null;
 
     /**
      * Blob instance
      *
-     * @var Storage\Blob|null
+     * @var \Glue\Storage\Blob
      */
     protected $blob  = null;
 
@@ -40,25 +37,25 @@ class Storage
     /**
      * Public constructor
      *
-     * @param $key
-     * @param $path
+     * @param string $key
+     * @param string $path
      */
     public function __construct($key, $path)
     {
         $this->key   = $key;
         $this->path  = $path;
 
-        $this->index = new Storage\Index($this->getKeyPath());
-        $this->blob  = new Storage\Blob($this->getKeyPath());
+        $this->index = new Index($this->getKeyPath());
+        $this->blob  = new Blob($this->getKeyPath());
     }
 
     /**
      * Saves item to storage
      *
-     * @param $name
-     * @param $value
-     * @param array $meta
-     * @return bool|\FALSE|int
+     * @param  string          $name
+     * @param  string          $value
+     * @param  array           $meta
+     * @return boolean|integer
      */
     public function save($name, $value, array $meta = array())
     {
@@ -76,8 +73,8 @@ class Storage
     /**
      * Reads item from storage
      *
-     * @param $name
-     * @return array|bool
+     * @param  string        $name
+     * @return array|boolean
      */
     public function read($name)
     {
@@ -101,8 +98,8 @@ class Storage
     /**
      * Deletes item from storage
      *
-     * @param $name
-     * @return bool
+     * @param  string  $name
+     * @return boolean
      */
     public function delete($name)
     {
@@ -111,27 +108,27 @@ class Storage
         if (is_array($result) && count($result) == 2) {
             return $this->blob->delete($result[0], $result[1]);
         }
+
         return false;
     }
 
     /**
      * Compacts storage
      *
-     * @return bool
+     * @return boolean
      */
     public function compact()
     {
         $result = true;
 
         // TODO: Implement
-
         return $result;
     }
 
     /**
      * Returns hash of name
      *
-     * @param $name
+     * @param  string $name
      * @return string
      */
     protected function getKey($name)
@@ -152,7 +149,7 @@ class Storage
     /**
      * Returns mime-type for data
      *
-     * @param $data
+     * @param  string $data
      * @return string
      */
     protected function getMimeType($data)
@@ -160,6 +157,7 @@ class Storage
         $info = finfo_open(FILEINFO_MIME_TYPE);
         $mime = finfo_buffer($info, $data);
         finfo_close($info);
+
         return $mime;
     }
 }

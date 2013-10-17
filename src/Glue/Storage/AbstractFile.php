@@ -1,11 +1,5 @@
 <?php
-/**
- * User: majesty
- * Date: 14.07.13
- */
-
 namespace Glue\Storage;
-
 
 abstract class AbstractFile
 {
@@ -33,7 +27,7 @@ abstract class AbstractFile
     /**
      * Public constructor
      *
-     * @param $path
+     * @param string $path
      */
     public function __construct($path)
     {
@@ -67,7 +61,7 @@ abstract class AbstractFile
     /**
      * Returns file size
      *
-     * @return int
+     * @return integer
      */
     protected function size()
     {
