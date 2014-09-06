@@ -42,9 +42,9 @@ class Glue
     /**
      * Save data to storage.
      *
-     * @param  string  $name
-     * @param  string  $value
-     * @return boolean
+     * @param  string          $name
+     * @param  string          $value
+     * @return boolean|integer
      */
     public function save($name, $value)
     {
@@ -68,6 +68,20 @@ class Glue
         $result  = $storage->read($name);
 
         return $result;
+    }
+
+    /**
+     * Checks if item exists in storage.
+     *
+     * @param  string  $name
+     * @return boolean
+     */
+    public function exists($name)
+    {
+        $key = $this->key2storage($name);
+        $storage = $this->getStorage($key);
+
+        return $storage->exists($name);
     }
 
     /**

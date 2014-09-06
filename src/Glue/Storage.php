@@ -96,6 +96,20 @@ class Storage
     }
 
     /**
+     * Checks if item exists in storage
+     *
+     * @param  string  $name
+     * @return boolean
+     */
+    public function exists($name)
+    {
+        $key   = $this->getKey($name);
+        $index = $this->index->read($key);
+
+        return (false !== $index);
+    }
+
+    /**
      * Deletes item from storage
      *
      * @param  string  $name
