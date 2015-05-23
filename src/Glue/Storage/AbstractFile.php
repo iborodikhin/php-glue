@@ -53,6 +53,12 @@ abstract class AbstractFile
     {
         if (!is_resource($this->handle)) {
             $this->handle = fopen($this->path, 'r+');
+
+            if (false === $this->handle) {
+                touch($this->path);
+
+                $this->handle = fopen($this->path, 'r+');
+            }
         }
 
         return $this->handle;
