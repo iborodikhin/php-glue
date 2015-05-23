@@ -10,7 +10,7 @@ class Glue
      *
      * @var string
      */
-    protected $path = __DIR__;
+    protected $path;
 
     /**
      * How many BLOBs to create — 16^$levels
@@ -30,11 +30,16 @@ class Glue
      * Public constructor.
      * Creates Glue instance.
      *
-     * @param string  $path
-     * @param integer $levels
+     * @param  string  $path
+     * @param  integer $levels
+     * @thrown \InvalidArgumentException
      */
-    public function __construct($path = __DIR__, $levels = 2)
+    public function __construct($path, $levels = 2)
     {
+        if (empty($path)) {
+            throw new \InvalidArgumentException('"path" parameter is required.');
+        }
+
         $this->path   = $path;
         $this->levels = $levels;
     }
