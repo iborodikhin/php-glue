@@ -119,7 +119,7 @@ class Storage
     {
         $key = $this->getKey($name);
         $result = $this->index->delete($key);
-        if (is_array($result) && count($result) == 2) {
+        if (is_array($result) && count($result) == 3) {
             return $this->blob->delete($result[0], $result[1]);
         }
 
