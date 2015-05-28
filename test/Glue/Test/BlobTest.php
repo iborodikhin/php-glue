@@ -76,7 +76,6 @@ class BlobTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotEquals(false, $result);
         $this->assertEquals($this->testData['data'], $result);
-        $this->assertFalse($this->blob->read(PHP_INT_MAX - 10, 10));
     }
 
     /**
