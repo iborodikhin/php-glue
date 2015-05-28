@@ -63,11 +63,11 @@ class Storage
         $index = $this->blob->save($value);
         $meta['mime-type'] = $this->getMimeType($value);
 
-        if ($index === false) {
-            return false;
+        if (false !== $index && false !== $this->index->save($key, $index[0], $index[1], serialize($meta))) {
+            return $index[1];
         }
 
-        return $this->index->save($key, $index[0], $index[1], serialize($meta));
+        return false;
     }
 
     /**

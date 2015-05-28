@@ -18,11 +18,15 @@ class Blob extends AbstractFile
      */
     public function save($data)
     {
+        $result = false;
         $fh = $this->open();
         flock($fh, LOCK_EX);
         $offset = $this->size();
-        fseek($fh, $offset);
-        $result = fwrite($fh, $data);
+
+        if (-1 !== fseek($fh, $offset)) {
+            $result = fwrite($fh, $data);
+        }
+
         flock($fh, LOCK_UN);
 
         if ($result === false) {
@@ -41,10 +45,14 @@ class Blob extends AbstractFile
      */
     public function read($offset, $length)
     {
+        $result = false;
         $fh = $this->open();
         flock($fh, LOCK_SH);
-        fseek($fh, $offset);
-        $result = fread($fh, $length);
+
+        if (-1 !== fseek($fh, $offset)) {
+            $result = fread($fh, $length);
+        }
+
         flock($fh, LOCK_UN);
 
         return $result;
@@ -59,10 +67,14 @@ class Blob extends AbstractFile
      */
     public function delete($offset, $length)
     {
+        $result = false;
         $fh = $this->open();
         flock($fh, LOCK_EX);
-        fseek($fh, $offset);
-        $result = fwrite($fh, str_repeat(chr(0), $length));
+
+        if (-1 !== fseek($fh, $offset)) {
+            $result = fwrite($fh, str_repeat(chr(0), $length));
+        }
+
         flock($fh, LOCK_UN);
 
         if ($result === false) {

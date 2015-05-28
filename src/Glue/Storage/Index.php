@@ -90,11 +90,12 @@ class Index extends AbstractFile
 
                     return $result;
                 } else {
-                    fseek($fh, 0 - strlen($string), SEEK_CUR);
-                    fputs($fh, str_repeat(chr(0), strlen(trim($string))));
-                    flock($fh, LOCK_UN);
+                    if (-1 !== fseek($fh, 0 - strlen($string), SEEK_CUR)) {
+                        fputs($fh, str_repeat(chr(0), strlen(trim($string))));
+                        flock($fh, LOCK_UN);
 
-                    return $result;
+                        return $result;
+                    }
                 }
             }
         }

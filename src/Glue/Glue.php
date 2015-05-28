@@ -64,7 +64,7 @@ class Glue
      * Read data from storage.
      *
      * @param  string $name
-     * @return string
+     * @return array|false
      */
     public function read($name)
     {
@@ -147,7 +147,7 @@ class Glue
      */
     protected function getStorage($key)
     {
-        if (!isset($this->storages[$key]) || !is_a($this->storages[$key], Storage)) {
+        if (!isset($this->storages[$key]) || !is_a($this->storages[$key], '\\Glue\\Storage')) {
             $this->storages[$key] = new Storage($key, $this->path);
         }
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- http://www.phpunit.de/manual/current/en/appendixes.configuration.html -->
+<phpunit
+        backupGlobals               = "false"
+        backupStaticAttributes      = "false"
+        colors                      = "true"
+        convertErrorsToExceptions   = "true"
+        convertNoticesToExceptions  = "true"
+        convertWarningsToExceptions = "true"
+        processIsolation            = "false"
+        stopOnFailure               = "false"
+        syntaxCheck                 = "false"
+        bootstrap                   = "test/bootstrap.php" >
+
+    <testsuites>
+        <testsuite name="PHP-Glue Test Suite">
+            <directory>test/Glue/Test</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>test</directory>
+            <exclude>
+                <directory>tests/*/*/Test</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>

@@ -52,6 +52,10 @@ abstract class AbstractFile
     protected function open()
     {
         if (!is_resource($this->handle)) {
+            if (!file_exists($this->path)) {
+                touch($this->path);
+            }
+
             $this->handle = fopen($this->path, 'r+');
 
             if (false === $this->handle) {
