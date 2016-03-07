@@ -1,5 +1,6 @@
 php-glue
 ========
+[![Build Status](https://travis-ci.org/iborodikhin/php-glue.png?branch=master)](https://travis-ci.org/iborodikhin/php-glue)
 
 Files storage scheme which «glues» couple of small files into several BLOBs
 
